@@ -17,9 +17,9 @@ if st.button("Get Welcome Message"):
 # Example: Post data to FastAPI
 st.subheader("Add New Item")
 name = st.text_input("Name")
-price = st.number_input("Price", min_value=0.0, format="%.2f")
+#price = st.number_input("Price", min_value=0.0, format="%.2f")
 if st.button("Add Inventory"):
-    data = {"name": name}
+    data = {"task": name}
     response = requests.post(f"{API_URL}inventory", json=data)
     if response.status_code == 200:
         st.success("Inventory added successfully!")
