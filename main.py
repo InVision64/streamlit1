@@ -18,7 +18,7 @@ y = st.slider("Value of y", 0, 100, 10)
 # Button to trigger the API call
 if st.button("Calculate"):
     # Prepare the input data as a dictionary, then dump to JSON string
-    inputs = {"tasks": option}
+    inputs = {"task": option}
     
     try:
         # Send a POST request to the API
