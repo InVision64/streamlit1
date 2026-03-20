@@ -1,37 +1,27 @@
+# app.py
 import streamlit as st
 import requests
-import json
 
-st.title("ToDoList")
+API_URL = "https://check1-dun-six.vercel.app/tasks/" # Ensure the URL matches your FastAPI server
 
-# Define the local API URL (replace with your deployed API URL on Render)
-API_URL = "https://check1-dun-six.vercel.app/tasks/"
+st.title("Streamlit and FastAPI Demo")
 
-# Streamlit widgets for user input
-option = st.selectbox(
-    "Select operation",
-    ("add", "subtract", "multiply", "divide")
-)
-x = st.slider("Value of x", 0, 100, 20)
-y = st.slider("Value of y", 0, 100, 10)
+# Example: Fetch data from FastAPI
+if st.button("Get Welcome Message"):
+    response = requests.get(API_URL)
+    if response.status_code == 200:
+        st.write(response.json())
+    else:
+        st.error("Failed to fetch message from API")
 
-# Button to trigger the API call
-if st.button("Calculate"):
-    # Prepare the input data as a dictionary, then dump to JSON string
-    inputs = {"task": option}
-    
-    try:
-        # Send a POST request to the API
-        response = requests.post(url=API_URL, data=json.dumps(inputs))
-        
-        # Check if the request was successful
-        if response.status_code == 200:
-            result = response.json()
-            st.success(f"The result is: {result['result']}")
-        else:
-            st.error(f"API request failed with status code {response.status_code}")
-            st.json(response.json())
-    except requests.exceptions.RequestException as e:
-        st.error(f"An error occurred while connecting to the API: {e}")
-
-st.caption("Make sure your backend API is running and accessible at the specified URL.")
+# Example: Post data to FastAPI
+st.subheader("Add New Item")
+name = st.text_input("Name")
+price = st.number_input("Price", min_value=0.0, format="%.2f")
+if st.button("Add Inventory"):
+    data = {"name": name, "price": price}
+    response = requests.post(f"{API_URL}inventory", json=data)
+    if response.status_code == 200:
+        st.success("Inventory added successfully!")
+    else:
+        st.error("Failed to add inventory")
