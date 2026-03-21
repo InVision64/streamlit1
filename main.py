@@ -24,8 +24,8 @@ if st.button("Display"):
     response = requests.get(f"{API_URL}/get_todo")
     if response.status_code == 200:
         data=response.json()
-        for row in data:
-            st.write(f"{row['id']} - {row['text']}")
-        #st.write()
+        #for row in data:
+            #st.write(f"{row['id']} - {row['text']}")
+        st.write()
     else:
         st.error("Failed to fetch message from API")
