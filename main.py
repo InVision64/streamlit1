@@ -2,7 +2,7 @@
 import streamlit as st
 import requests
 
-API_URL = "https://check1-dun-six.vercel.app" # Ensure the URL matches your FastAPI server
+API_URL = "https://check1-beta.vercel.app" # Ensure the URL matches your FastAPI server
 
 st.title("Streamlit and FastAPI Demo")
 
