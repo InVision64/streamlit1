@@ -52,8 +52,8 @@ if "token" in st.session_state:
     if st.button("Display"):
         headers = {"Authorization": f"Bearer {token}"}
         response = requests.get(f"{API_URL}/get_todo", headers=headers)
-        if response.status_code == 200:
-            for row in response.json():
-                st.write(f"{row['id']} - {row['task']}")
-        else:
-            st.error(f"{response.status_code}: {response.text}")
+        # if response.status_code == 200:
+        for row in response.json():
+            st.write(f"{row['id']} - {row['task']}")
+        # else:
+        #     st.error(f"{response.status_code}: {response.text}")
