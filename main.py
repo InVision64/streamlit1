@@ -24,7 +24,7 @@ if st.button("Display"):
     response = requests.get(f"{API_URL}/get_todo")
     if response.status_code == 200:
         #st.write(response.json())
-        data = res.json()
+        data = response.json()
         for row in data:
             st.write(f"{row['id']} - {row['task']}")
     else:
