@@ -43,12 +43,10 @@ if "token" in st.session_state:
         if response.status_code == 200:
             st.success("Todo added successfully!")
             st.json(response.json())
-        elif: response.status_code == 401:
+        elif response.status_code == 401:
             st.warning("Session expired. Login again.")
-        elif:
-            st.error(f"{response.status_code}: {response.text}")
         else:
-            st.warning("Please enter a task before submitting!")
+            st.error(f"{response.status_code}: {response.text}")
             
     # Example: Fetch data from FastAPI
     if st.button("Display"):
