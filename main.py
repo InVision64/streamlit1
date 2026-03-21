@@ -8,7 +8,7 @@ st.title("Streamlit and FastAPI Demo")
 
 # Example: Fetch data from FastAPI
 if st.button("Get Welcome Message"):
-    response = requests.get(f"{API_URL}/tasks/")
+    response = requests.get(f"{API_URL}/todo/")
     if response.status_code == 200:
         st.write(response.json())
     else:
@@ -16,11 +16,11 @@ if st.button("Get Welcome Message"):
 
 # Example: Post data to FastAPI
 st.subheader("Add New Item")
-name = st.text_input("Name")
+name = st.text_input("Name: ")
 #price = st.number_input("Price", min_value=0.0, format="%.2f")
 if st.button("Add Inventory"):
     data = {"task": name}
-    response = requests.post(f"{API_URL}/tasks/", json=data)
+    response = requests.post(f"{API_URL}/todo/", json=data)
     if response.status_code == 200:
         st.success("Inventory added successfully!")
     else:
