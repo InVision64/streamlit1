@@ -13,7 +13,7 @@ if not SUPABASE_URL or not SUPABASE_KEY:
     st.stop()
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-API_URL = "https://check1-ruddy.vercel.app" # Ensure the URL matches your FastAPI server
+API_URL = "https://check1-6sq8.onrender.com" # Ensure the URL matches your FastAPI server
 
 st.title("Streamlit and FastAPI Demo")
 
