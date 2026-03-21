@@ -8,7 +8,7 @@ st.title("Streamlit and FastAPI Demo")
 
 # Example: Fetch data from FastAPI
 if st.button("Get Welcome Message"):
-    response = requests.get(API_URL)
+    response = requests.get(f"{API_URL}/tasks/")
     if response.status_code == 200:
         st.write(response.json())
     else:
@@ -16,7 +16,7 @@ if st.button("Get Welcome Message"):
 
 # Example: Post data to FastAPI
 st.subheader("Add New Item")
-#name = st.text_input("Name")
+name = st.text_input("Name")
 #price = st.number_input("Price", min_value=0.0, format="%.2f")
 if st.button("Add Inventory"):
     data = {"task": name}
@@ -25,19 +25,3 @@ if st.button("Add Inventory"):
         st.success("Inventory added successfully!")
     else:
         st.error("Failed to add inventory")
-
-task = st.text_input("Add a new task:")
-if st.button("Add Task"):
-    if task:
-        add_todo(task)
-        st.success("Task added!")
-    else:
-        st.error("Please enter a task.")
-
-st.write("### Todo List:")
-todos = get_todos()
-if todos:
-    for todo in todos:
-        st.write(f"- {todo['task']}")
-else:
-    st.write("No tasks available.")
