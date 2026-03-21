@@ -2,7 +2,7 @@
 import streamlit as st
 import requests
 
-API_URL = "https://check1-beta.vercel.app" # Ensure the URL matches your FastAPI server
+API_URL = "https://check1-x1hg.vercel.app/" # Ensure the URL matches your FastAPI server
 
 st.title("Streamlit and FastAPI Demo")
 
@@ -21,7 +21,7 @@ if st.button("Submit"):
 
 # Example: Fetch data from FastAPI
 if st.button("Display"):
-    response = requests.get(f"{API_URL}/get_todo/")
+    response = requests.get(f"{API_URL}/get_todo")
     if response.status_code == 200:
         data=response.json()
         for row in data:
