@@ -12,7 +12,7 @@ input = st.text_input("Name: ")
 #price = st.number_input("Price", min_value=0.0, format="%.2f")
 if st.button("Submit"):
     if input:
-        response = requests.post(f"{API_URL}/add_todo", json={"data": input})
+        response = requests.post(f"{API_URL}/add_todo", params={"data": input})
         if response.status_code == 200:
             st.success("todo added successfully!")
             st.json(response.json())
