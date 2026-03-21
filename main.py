@@ -1,31 +1,55 @@
 # app.py
 import streamlit as st
 import requests
+from supabase import create_client
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 API_URL = "https://check1-ruddy.vercel.app" # Ensure the URL matches your FastAPI server
 
 st.title("Streamlit and FastAPI Demo")
 
-# Example: Post data to FastAPI
-st.subheader("Add New Item")
-input_data = st.text_input("Name: ")
-if st.button("Add Todo"):
-    if input_data:
-        response = requests.post(f"{API_URL}/add_todo/", json={"data": input_data})  # sends as JSON body
-        if response.status_code == 200:
-            st.success("Todo added successfully!")
-            st.json(response.json())
+# Login
+email = st.text_input("Email")
+password = st.text_input("Password", type="password")
+if st.button("Login"):
+    res = supabase.auth.sign_in_with_password({
+        "email": email,
+        "password": password
+    })
+    st.session_state["token"] = res.session.access_token
+    st.success("Logged in!")
+# After login
+if "token" in st.session_state:
+    token = st.session_state["token"]
+    # Example: Post data to FastAPI
+    st.subheader("Add New Item")
+    input_data = st.text_input("Name: ")
+    if st.button("Add Todo"):
+        headers = {"Authorization": f"Bearer {token}"}
+        if input_data:
+            response = requests.post(f"{API_URL}/add_todo/", json={"data": input_data}, headers=headers)  # sends as JSON body
+            if response.status_code == 200:
+                st.success("Todo added successfully!")
+                st.json(response.json())
+            else:
+                st.error(f"Failed to add todo. Status code: {response.status_code}")
         else:
-            st.error(f"Failed to add todo. Status code: {response.status_code}")
-    else:
-        st.warning("Please enter a task before submitting!")
-# Example: Fetch data from FastAPI
-if st.button("Display"):
-    response = requests.get(f"{API_URL}/get_todo")
-    if response.status_code == 200:
-        #st.write(response.json())
-        data = response.json()
-        for row in data:
-            st.write(f"{row['id']} - {row['task']}")
-    else:
-        st.error("Failed to fetch message from API")
+            st.warning("Please enter a task before submitting!")
+            
+    # Example: Fetch data from FastAPI
+    if st.button("Display"):
+        headers = {"Authorization": f"Bearer {token}"}
+        response = requests.get(f"{API_URL}/get_todo", headers=headers)
+        if response.status_code == 200:
+            #st.write(response.json())
+            data = response.json()
+            for row in data:
+                st.write(f"{row['id']} - {row['task']}")
+        else:
+            st.error("Failed to fetch message from API")
