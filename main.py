@@ -2,7 +2,7 @@
 import streamlit as st
 import requests
 
-API_URL = "https://check1-seven.vercel.app/" # Ensure the URL matches your FastAPI server
+API_URL = "https://check1-seven.vercel.app" # Ensure the URL matches your FastAPI server
 
 st.title("Streamlit and FastAPI Demo")
 
@@ -12,12 +12,12 @@ input = st.text_input("Name: ")
 #price = st.number_input("Price", min_value=0.0, format="%.2f")
 if st.button("Submit"):
     if input:
-        #data = {"task": name}
         response = requests.post(f"{API_URL}/add_todo", json={"data": input})
         if response.status_code == 200:
-            st.success("Inventory added successfully!")
+            st.success("todo added successfully!")
+            st.json(response.json())
         else:
-            st.error("Failed to add inventory")
+            st.error(f"Failed to add todo. Status code: {response.status_code}")
 
 # Example: Fetch data from FastAPI
 if st.button("Display"):
