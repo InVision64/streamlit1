@@ -7,7 +7,7 @@ API_URL = "https://check1-beta.vercel.app" # Ensure the URL matches your FastAPI
 st.title("Streamlit and FastAPI Demo")
 
 # Example: Fetch data from FastAPI
-if st.button("Get Welcome Message"):
+if st.button("Display"):
     response = requests.get(f"{API_URL}/todo/")
     if response.status_code == 200:
         st.write(response.json())
@@ -16,12 +16,13 @@ if st.button("Get Welcome Message"):
 
 # Example: Post data to FastAPI
 st.subheader("Add New Item")
-name = st.text_input("Name: ")
+input = st.text_input("Name: ")
 #price = st.number_input("Price", min_value=0.0, format="%.2f")
-if st.button("Add Inventory"):
-    data = {"task": name}
-    response = requests.post(f"{API_URL}/todo/", json=data)
-    if response.status_code == 200:
-        st.success("Inventory added successfully!")
-    else:
-        st.error("Failed to add inventory")
+if st.button("Submit"):
+    if input:
+        #data = {"task": name}
+        response = requests.post(f"{API_URL}/todo", json={"data": input})
+        if response.status_code == 200:
+            st.success("Inventory added successfully!")
+        else:
+            st.error("Failed to add inventory")
