@@ -55,15 +55,9 @@ if "token" in st.session_state:
         response = requests.get(f"{API_URL}/get_todo", headers=headers)
         if response.status_code == 200:
             st.success("Todo added successfully!")
-            st.json(response.json())
-            st.write(response.json())
+            for row in response.json():
+                st.write(f"{row['id']} - {row['task']}")
         elif response.status_code == 401:
             st.warning("Session expired. Login again.")
         else:
             st.error(f"{response.status_code}: {response.text}")
-         
-        # if response.status_code == 200:
-        # for row in response.json():
-        #     st.write(f"{row['id']} - {row['task']}")
-        # else:
-        #     st.error(f"{response.status_code}: {response.text}")
