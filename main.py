@@ -14,7 +14,6 @@ if not SUPABASE_URL or not SUPABASE_KEY:
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 API_URL = "https://check1-6sq8.onrender.com" # Ensure the URL matches your FastAPI server
-# API_URL = "check1-ruddy.vercel.app" # Ensure the URL matches your FastAPI server
 
 st.title("Streamlit and FastAPI Demo")
 
@@ -54,7 +53,7 @@ if "token" in st.session_state:
         headers = {"Authorization": f"Bearer {token}"}
         response = requests.get(f"{API_URL}/get_todo", headers=headers)
         if response.status_code == 200:
-            st.success("Todo added successfully!")
+            st.success("Display data!")
             for row in response.json():
                 st.write(f"{row['id']} - {row['task']}")
         elif response.status_code == 401:
