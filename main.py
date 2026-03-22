@@ -52,7 +52,15 @@ if "token" in st.session_state:
     if st.button("Display"):
         headers = {"Authorization": f"Bearer {token}"}
         response = requests.get(f"{API_URL}/get_todo", headers=headers)
-        st.write(response.json())
+        if response.status_code == 200:
+            st.success("Todo added successfully!")
+            st.json(response.json())
+            st.write(response.json())
+        elif response.status_code == 401:
+            st.warning("Session expired. Login again.")
+        else:
+            st.error(f"{response.status_code}: {response.text}")
+         
         # if response.status_code == 200:
         # for row in response.json():
         #     st.write(f"{row['id']} - {row['task']}")
